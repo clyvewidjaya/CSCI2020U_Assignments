@@ -1,10 +1,5 @@
 package sample;
 
-import com.intellij.openapi.diff.impl.processing.Word;
-
-import java.io.File;
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.*;
 
 /**

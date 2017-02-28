@@ -1,8 +1,6 @@
 package sample;
 
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
@@ -12,10 +10,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
-
 import java.io.File;
-import java.util.Map;
-import java.util.TreeMap;
 
 public class Main extends Application {
     private TableView<TestFile> table;
@@ -36,20 +31,26 @@ public class Main extends Application {
         table.setItems(DataSource.getResult());
 
         TableColumn<TestFile,String> fileNameColumn = new TableColumn<>("File");
-        fileNameColumn.setMinWidth(100);
+        fileNameColumn.setMinWidth(350);
         fileNameColumn.setCellValueFactory(new PropertyValueFactory<>("filename"));
 
         TableColumn<TestFile,String> actualClassColumn = new TableColumn<>("Actual Class");
-        actualClassColumn.setMinWidth(100);
+        actualClassColumn.setMinWidth(150);
         actualClassColumn.setCellValueFactory(new PropertyValueFactory<>("actualClass"));
 
+        TableColumn<TestFile,String> actualClassCounted = new TableColumn<>("Spam Detector Categorized");
+        actualClassCounted.setMinWidth(250);
+        actualClassCounted.setCellValueFactory(new PropertyValueFactory<>("actualClassCounted"));
+
         TableColumn<TestFile,Double> spamProbColumn = new TableColumn<>("Spam Probability");
-        spamProbColumn.setMinWidth(100);
+        spamProbColumn.setMinWidth(200);
         spamProbColumn.setCellValueFactory(new PropertyValueFactory<>("spamProbability"));
 
         table.getColumns().add(fileNameColumn);
         table.getColumns().add(actualClassColumn);
+        table.getColumns().add(actualClassCounted);
         table.getColumns().add(spamProbColumn);
+
 
         GridPane percentage = new GridPane();
         percentage.add(new Label("Accuracy: " + FileOpener.accuracy),0,0);
@@ -58,7 +59,7 @@ public class Main extends Application {
         layout.setCenter(table);
         layout.setBottom(percentage);
 
-        Scene scene = new Scene(layout, 600,600);
+        Scene scene = new Scene(layout, 950,650);
         primaryStage.setScene(scene);
         primaryStage.show();
     }

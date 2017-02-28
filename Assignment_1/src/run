@@ -1,0 +1,2 @@
+javac sample/*.java
+java sample.Main

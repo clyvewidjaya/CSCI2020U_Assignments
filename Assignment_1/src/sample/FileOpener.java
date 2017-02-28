@@ -1,10 +1,6 @@
 package sample;
 
-import com.intellij.openapi.diff.impl.processing.Word;
-import com.sun.jna.platform.win32.OaIdl;
 
-import java.io.*;
-import java.text.DecimalFormat;
 import java.util.*;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -28,6 +24,8 @@ public class FileOpener {
     private static Map<String,Double> spamOfEachWord;
     public static Map<String,Double> predictOfSpam;
     public static Map<String,Double> predictOfHam;
+    public static Map<String,String> trueSpam;
+    public static Map<String,String> trueHam;
 
     public FileOpener(){
         trainSpam = new TreeMap<>();
@@ -37,7 +35,8 @@ public class FileOpener {
         spamOfEachWord = new TreeMap<>();
         predictOfSpam = new TreeMap<>();
         predictOfHam = new TreeMap<>();
-
+        trueSpam = new TreeMap<>();
+        trueHam = new TreeMap<>();
     }
 
     public static void startClass(File mainDirectory) throws IOException{
@@ -48,6 +47,8 @@ public class FileOpener {
         FileOpener spamOfEachWord = new FileOpener();
         FileOpener predictOfSpam = new FileOpener();
         FileOpener predictOfHam = new FileOpener();
+        FileOpener trueSpam = new FileOpener();
+        FileOpener trueHam = new FileOpener();
 
         String equalWith = "spam";
         trainSpam.openFolder(mainDirectory, equalWith);
@@ -63,16 +64,16 @@ public class FileOpener {
 
         //Combine trainHam and trainHam2 tree
         trainHamComb.combineTree();
-        //equalWith = "trainHamComb";
-        //trainHamComb.printWordCounts(equalWith);
+        equalWith = "trainHamComb";
+        trainHamComb.printWordCounts(equalWith);
 
         spamOfEachWord.countProb();
         /*
         equalWith = "spamProb";
         spamOfEachWord.printWordCounts(equalWith);
-
+        */
         openTestFolder(mainDirectory);
-
+        /*
         equalWith = "predictSpam";
         predictOfSpam.printWordCounts(equalWith);
 
@@ -95,7 +96,9 @@ public class FileOpener {
             double prob = FileOpener.predictOfHam.get(key);
             if (prob < 0.5){
                 correct++;
+                trueHam.put(key,"Ham");
             } else {
+                trueSpam.put(key,"Spam");
                 correctSpam++;
             }
         }
@@ -109,6 +112,9 @@ public class FileOpener {
                 correct++;
                 correctSpam++;
                 correctSpamGuess++;
+                trueSpam.put(key,"Spam");
+            } else {
+                trueHam.put(key,"Ham");
             }
         }
         accuracy = (double)correct / (double)totalFiles;
@@ -130,6 +136,7 @@ public class FileOpener {
                     } else if (filesInDir[i].getName().equals("ham") && filesInDir[i].getParentFile().getName().equals("test")){
                         openTestFile(filesInDir[i]);
                     }
+                    openTestFolder(filesInDir[i]);
                 }
             }
         }
@@ -231,9 +238,6 @@ public class FileOpener {
                 if (filesInDir[i].getName().equals("train")) {
                     //System.out.println("Folder -> " + filesInDir[i].getName());
                     openFolder(filesInDir[i], equalWith);
-                } else if (filesInDir[i].getName().equals("test")){
-                    //System.out.println("Folder -> " + filesInDir[i].getName());
-                    openFolder(filesInDir[i], equalWith);
                 } else if (filesInDir[i].isDirectory()){
                     //System.out.println("Folder -> " + filesInDir[i].getName());
                     //Spam Tree, then Ham Tree (ham2 -> ham)
@@ -301,7 +305,7 @@ public class FileOpener {
         }
 
     }
-    /*
+
     public void printWordCounts(String equalWith) throws IOException{
         if (equalWith == "spam"){
             PrintWriter fout = new PrintWriter("spam.txt");
@@ -389,5 +393,5 @@ public class FileOpener {
             fout.close();
         }
     }
-    */
+
 }

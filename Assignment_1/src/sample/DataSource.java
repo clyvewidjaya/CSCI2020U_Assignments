@@ -3,6 +3,7 @@ package sample;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+import java.io.File;
 import java.util.Iterator;
 import java.util.Set;
 
@@ -19,7 +20,11 @@ public class DataSource {
         while(keyIterator.hasNext()){
             String key = keyIterator.next();
             double prob = FileOpener.predictOfHam.get(key);
-            result.add(new TestFile(key, prob, "Ham"));
+            if (FileOpener.trueHam.containsKey(key)){
+                result.add(new TestFile(key, prob, "Ham", "Ham"));
+            } else {
+                result.add(new TestFile(key, prob, "Ham", "Spam"));
+            }
         }
 
         keys = FileOpener.predictOfSpam.keySet();
@@ -27,7 +32,11 @@ public class DataSource {
         while(keyIterator.hasNext()){
             String key = keyIterator.next();
             double prob = FileOpener.predictOfSpam.get(key);
-            result.add(new TestFile(key, prob, "Spam"));
+            if (FileOpener.trueSpam.containsKey(key)){
+                result.add(new TestFile(key, prob, "Spam", "Spam"));
+            } else {
+                result.add(new TestFile(key, prob, "Spam", "Ham"));
+            }
         }
         return result;
     }
