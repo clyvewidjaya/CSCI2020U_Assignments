@@ -1,14 +1,16 @@
+/*
+ * This FileOpener Class will open and read both test and train folder,
+ * also count for the spam probability of each word,
+ * spam prob of each file, accuracy, and precision
+ * @Author Clyve Widjaya
+*/
 package sample;
-
 
 import java.util.*;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.File;
 
-/**
- * Created by clyve on 16/02/17.
- */
 public class FileOpener {
     public static int countofSpamFiles = 0;
     public static int countofHamFiles = 0;
@@ -26,6 +28,7 @@ public class FileOpener {
     public static Map<String,Double> predictOfHam;
     public static Map<String,String> trueSpam;
     public static Map<String,String> trueHam;
+
 
     public FileOpener(){
         trainSpam = new TreeMap<>();
@@ -52,27 +55,36 @@ public class FileOpener {
 
         String equalWith = "spam";
         trainSpam.openFolder(mainDirectory, equalWith);
+        //To print spam tree on a file, use code below
         //trainSpam.printWordCounts(equalWith);
 
         equalWith = "ham2";
         trainHam2.openFolder(mainDirectory, equalWith);
+        //To print ham2 tree on a file, use code below
         //trainHam2.printWordCounts(equalWith);
 
         equalWith = "ham";
         trainHam.openFolder(mainDirectory, equalWith);
+        //To print ham tree on a file, use code below
         //trainHam.printWordCounts(equalWith);
 
         //Combine trainHam and trainHam2 tree
         trainHamComb.combineTree();
         equalWith = "trainHamComb";
-        trainHamComb.printWordCounts(equalWith);
+        //To print combined ham tree on a file, use code below
+        //trainHamComb.printWordCounts(equalWith);
 
+        //Calling the countProb function for spamOfEachWord tree
         spamOfEachWord.countProb();
+        //To print spam value of each word on a file, use code below
         /*
         equalWith = "spamProb";
         spamOfEachWord.printWordCounts(equalWith);
         */
+
+        //This will open and read test folder
         openTestFolder(mainDirectory);
+
         /*
         equalWith = "predictSpam";
         predictOfSpam.printWordCounts(equalWith);
@@ -80,10 +92,21 @@ public class FileOpener {
         equalWith = "predictHam";
         predictOfHam.printWordCounts(equalWith);
         */
-        countAccuracay();
+
+        //Counting accuracy and probability
+        countAccuracy();
     }
 
-    public static void countAccuracay() throws IOException{
+    /*
+    This function will count the accuracy of our program,
+    It will count the accuracy and precision using the formula given
+    on Assignment1's pdf. For this program, I used 50% as the threshold,
+    so files that have spam probability of below 50% will be considered
+    as ham and if more than 50%, it will be considered as spam
+    @Param -
+    @Return -
+    */
+    public static void countAccuracy() throws IOException{
         int correct = 0;
         int totalFiles = totalHamFiles + totalSpamFiles;
         int correctSpam = 0;
@@ -121,6 +144,14 @@ public class FileOpener {
         precision = (double)correctSpamGuess/(double)correctSpam;
     }
 
+    /*
+    This function will open the test folder and read all the files inside.
+    It will find folder called "test" in the chosen directory, and if it
+    arrives to the files, this function will call another function, which
+    is openTestFile function, to read the file.
+    @Param File mainDirectory, this contains the path to the selected directory
+    @Return -
+    */
     public static void openTestFolder(File mainDirectory) throws IOException{
         if (mainDirectory.isDirectory()){
             File[] filesInDir = mainDirectory.listFiles();
@@ -130,7 +161,6 @@ public class FileOpener {
                     openTestFolder(filesInDir[i]);
                 } else if (filesInDir[i].isDirectory()){
                     //System.out.println("Folder -> " + filesInDir[i].getName());
-                    //Spam Tree, then Ham Tree (ham2 -> ham)
                     if (filesInDir[i].getName().equals("spam") && filesInDir[i].getParentFile().getName().equals("test")){
                         openTestFile(filesInDir[i]);
                     } else if (filesInDir[i].getName().equals("ham") && filesInDir[i].getParentFile().getName().equals("test")){
@@ -142,7 +172,14 @@ public class FileOpener {
         }
     }
 
-
+    /*
+    This function will read and count the spam probability of each file.
+    After it finished counting the probability, it saves the filename and its probability
+    on a treemap called predictOfSpam or predictOfHam. This function will also count
+    number of files in the ham and spam folder.
+    @Param File wantedFile, this contains the path to the file that is going to be read
+    @Return -
+    */
     public static void openTestFile(File wantedFile) throws IOException{
         File[] filesToOpen = wantedFile.listFiles();
         for (int i = 0; i < filesToOpen.length; i++){
@@ -177,6 +214,14 @@ public class FileOpener {
         }
     }
 
+    /*
+    This function will combine 2 treemaps of ham from training folder,
+    since we have 2 ham folders. The way I made the ham tree, was making
+    separate ham tree, 1 for ham and 1 for ham2. So i needed a function
+    which combined both.
+    @Param -
+    @Return -
+    */
     public static void combineTree() throws IOException{
         Set<String> keys = trainHam.keySet();
         Iterator<String> keyIterator = keys.iterator();
@@ -201,6 +246,14 @@ public class FileOpener {
         }
     }
 
+    /*
+    This function will combine 2 treemaps of ham from training folder,
+    since we have 2 ham folders. The way I made the ham tree, was making
+    separate ham tree, 1 for ham and 1 for ham2. So i needed a function
+    which combined both.
+    @Param -
+    @Return -
+    */
     public static void countProb() throws IOException{
         Set<String> keys = trainSpam.keySet();
         Iterator<String> keyIterator = keys.iterator();
@@ -231,6 +284,17 @@ public class FileOpener {
         }
     }
 
+    /*
+    This function will open the train folder and read all the files inside.
+    For each folder inside, ham, ham2, and spam, they will use a separate
+    tree map, in this case it will use 3, 1 for ham2, 1 for ham, 1 for spam.
+    This function will recurse until it reaches file, and when it does, it will
+    call openFile function to read the file
+    @Param File mainDirectory, the path to the directory or file.
+    @Param String equalWith, it is just a flag so the program knows where to
+            store the words read.
+    @Return -
+    */
     public static void openFolder(File mainDirectory, String equalWith) throws IOException{
         if (mainDirectory.isDirectory()){
             File[] filesInDir = mainDirectory.listFiles();
@@ -240,7 +304,6 @@ public class FileOpener {
                     openFolder(filesInDir[i], equalWith);
                 } else if (filesInDir[i].isDirectory()){
                     //System.out.println("Folder -> " + filesInDir[i].getName());
-                    //Spam Tree, then Ham Tree (ham2 -> ham)
                     if (filesInDir[i].getName().equals(equalWith) && filesInDir[i].getParentFile().getName().equals("train")){
                         if (equalWith == "spam"){
                             File[] filesInside = filesInDir[i].listFiles();
@@ -264,6 +327,16 @@ public class FileOpener {
         }
     }
 
+    /*
+    This function will record on number of each words appear in files.
+    It doesnt count on number of specific word in a file. It will strore
+    the word and count to the trees, depends on the equalWith. If the
+    equalWith is spam then store to trainSpam tree, if ham2 then store to trainHam2,
+    and if ham then store to trainHam.
+    @Param File wantedFile, path to the file that is going to be read
+    @Param String equalWith, flag to know which tree to store to
+    @Return -
+    */
     public static void openFile(File wantedFile, String equalWith) throws IOException{
         File[] filesToOpen = wantedFile.listFiles();
 
@@ -305,7 +378,7 @@ public class FileOpener {
         }
 
     }
-
+    /*
     public void printWordCounts(String equalWith) throws IOException{
         if (equalWith == "spam"){
             PrintWriter fout = new PrintWriter("spam.txt");
@@ -393,5 +466,6 @@ public class FileOpener {
             fout.close();
         }
     }
+    */
 
 }

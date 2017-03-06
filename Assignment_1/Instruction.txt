@@ -1,0 +1,13 @@
+Type this in Terminal
+
+> git clone https://github.com/clyvewidjaya/CSCI2020U_Assignments.git
+> cd Assignment_1
+> ./run
+
+When the directory chooser pops up, choose any directory/folder that contains
+both train and test folders. My program will find folders named train and test
+inside that chosen directory. So if the test and train folder are in desktop,
+just choose desktop and click open.
+
+For improving part,
+
