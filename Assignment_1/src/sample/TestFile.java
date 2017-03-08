@@ -1,8 +1,10 @@
+/*
+ * This testFile class will have some get and set function,
+ * but I didnt really use it, I used the TestFile function only
+ * to input the data.
+*/
 package sample;
 
-/**
- * Created by clyve on 09/02/17.
- */
 import java.text.DecimalFormat;
 public class TestFile {
     private String filename;

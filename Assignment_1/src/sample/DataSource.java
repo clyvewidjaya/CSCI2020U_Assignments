@@ -1,9 +1,12 @@
+/*
+ * This DataSource class will have a get result function
+ * where all the file in test folder categorized as ham or spam
+ * @Author Clyve Widjaya
+*/
 package sample;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-
-import java.io.File;
 import java.util.Iterator;
 import java.util.Set;
 
@@ -11,7 +14,14 @@ import java.util.Set;
  * Created by clyve on 14/02/17.
  */
 public class DataSource {
-
+    /*
+    This function will return result of observable array list,
+    which will be displayed on the main stage. This function will
+    also add each file's name, probability, actual category, and
+    category from the program into either trueHam or trueSpam map.
+    @Param -
+    @Return result, result is the observable array list.
+    */
     public static ObservableList<TestFile> getResult(){
 
         ObservableList<TestFile> result = FXCollections.observableArrayList();

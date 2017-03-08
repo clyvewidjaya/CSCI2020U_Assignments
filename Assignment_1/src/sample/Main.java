@@ -1,3 +1,10 @@
+/*
+ * This Main class will ask for directory of test and train
+ * folder. This function will also make the primary stage
+ * which shows the data we categorized.
+ *
+ * @Author Clyve Widjaya
+*/
 package sample;
 
 import javafx.application.Application;
@@ -15,13 +22,19 @@ import java.io.File;
 public class Main extends Application {
     private TableView<TestFile> table;
     @Override
+
+    /*
+    This function will output directory chooser and display
+    the data we categorized from chosen test and train data
+    @Param primaryStage
+    @return -
+    */
     public void start(Stage primaryStage) throws Exception{
         //Choose Directory
         DirectoryChooser directoryChooser = new DirectoryChooser();
         directoryChooser.setTitle("Choose Directory of Train and Test Folder");
         directoryChooser.setInitialDirectory(new File("."));
         File mainDirectory = directoryChooser.showDialog(primaryStage);
-        //System.out.print(mainDirectory);
         FileOpener.startClass(mainDirectory);
 
         primaryStage.setTitle("SPAM MASTER");

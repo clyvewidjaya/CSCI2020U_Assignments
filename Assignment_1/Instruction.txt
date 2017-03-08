@@ -9,5 +9,8 @@ both train and test folders. My program will find folders named train and test
 inside that chosen directory. So if the test and train folder are in desktop,
 just choose desktop and click open.
 
-For improving part,
+For improving part, I added more symbols on the string pattern, so the bag of words
+will have more to be considered as word. Since sometimes '!!!' could also have
+a high spam probability, that is why we need to consider that to be counted as 
+word with spam probability. 
 

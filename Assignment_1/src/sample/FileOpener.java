@@ -1,5 +1,5 @@
 /*
- * This FileOpener Class will open and read both test and train folder,
+ * This FileOpener class will open and read both test and train folder,
  * also count for the spam probability of each word,
  * spam prob of each file, accuracy, and precision
  * @Author Clyve Widjaya
