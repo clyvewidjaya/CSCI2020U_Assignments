@@ -1,6 +1,7 @@
 Type this in Terminal
 
 > git clone https://github.com/clyvewidjaya/CSCI2020U_Assignments.git
+> cd CSCI2020U_Assignments
 > cd Assignment_1
 > ./run
 
