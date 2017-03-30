@@ -1,3 +1,12 @@
+/*
+This Main class will open server which have multiple threads
+for the client function. This function is multi threaded
+so any amount of client can connect to the server
+and do the functions
+
+Author : Clyve Widjaya
+SID : 100590208
+*/
 package sample;
 
 import javafx.application.Application;

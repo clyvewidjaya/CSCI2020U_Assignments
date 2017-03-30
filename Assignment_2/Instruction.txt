@@ -1,0 +1,12 @@
+Type this in Terminal
+
+> git clone https://github.com/clyvewidjaya/CSCI2020U_Assignments.git
+> cd CSCI2020U_Assignments
+> cd Assignment_2
+
+The ip will be set to local host, to change, you have to change the ip on the
+main function of the client
+
+The client's right tab or the server's file,
+is set to refreshed every 7 seconds.  
+
